@@ -77,13 +77,13 @@ public class Main extends Application {
         ComboBox warriorClassComboBox = new ComboBox();
         warriorClassComboBox.getItems().addAll("Разведчик", "Борец", "Подрывник");
         grid.add(warriorClassComboBox, 4, 2);
-        if (warriorClassComboBox.getId().equals(0)) {
+        if (warriorClassComboBox.getSelectionModel().getSelectedIndex() == 0) {
             warriorType = 1;
         }
-        if (warriorClassComboBox.getId().equals(1)) {
+        if (warriorClassComboBox.getSelectionModel().getSelectedIndex() == 1) {
             warriorType = 2;
         }
-        if (warriorClassComboBox.getId().equals(2)) {
+        if (warriorClassComboBox.getSelectionModel().getSelectedIndex() == 2) {
             warriorType = 3;
         }
 
