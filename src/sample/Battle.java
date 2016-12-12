@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.scene.control.TextField;
 
 /**
  * Created by pc on 11.12.2016.
@@ -8,8 +7,10 @@ import javafx.scene.control.TextField;
 class Battle {
     private Squad squad1 = new Squad();
     private Squad squad2 = new Squad();
-    StringBuilder battleInfo = new StringBuilder();
-    boolean isBattleEnd = false;
+    private StringBuilder battleInfo = new StringBuilder();
+    private boolean isBattleEnd = false;
+    private Warrior warrior1 = null;
+    private Warrior warrior2 = null;
 
     void createSquads(String name1, String name2) {
         squad1.setSquadName(name1);
@@ -24,27 +25,17 @@ class Battle {
         squad2.addToSquad(name, type);
     }
 
-    String showSquadsName() {
-        return " Первый отряд: " + squad1.toString() + "\n Второй отряд: " + squad2.toString() + "\n";
-    }
-
     void startBattle() {
         squad1.setSquadNameForWarriors();
         squad2.setSquadNameForWarriors();
         DateHelper dateHelper = new DateHelper();
-        // выводим текущую дату-время -1500 лет
-        prepareToShowBattleInfo(dateHelper.getFormattedStartDate() + "\n");
-        Warrior warrior1, warrior2;
         // пока есть живые в обоих отрядах
         while (!isBattleEnd) {
             //выбор бойцов для первого раунда
             warrior1 = squad1.getRandomWarrior();
             warrior2 = squad2.getRandomWarrior();
             // описание раунда
-            String round1 = "\u001b[30;m     На бой вызываются: \n" + warrior1.toString() + "и " + warrior2.toString() +
-                    "\n\u001b[30;mАтакует боец " + warrior1.getNameOnly() + "\n\u001b[30;mБоец " +
-                    warrior2.getNameOnly() + "\u001b[30;m  принимает удар!\n";
-            prepareToShowBattleInfo(round1);
+            prepareToShowBattleInfo(showRound1Ad());
             // удар и потеря здоровья
             warrior2.takeDamage(warrior1.attack());
             prepareToShowBattleInfo(warrior2.getHealthStatus());
@@ -58,10 +49,7 @@ class Battle {
             //выбор бойцов для второго раунда
             warrior1 = squad1.getRandomWarrior();
             warrior2 = squad2.getRandomWarrior();
-            String round2 = "\u001b[30;m     На бой вызываются: \n" + warrior1.toString() + "и " + warrior2.toString() +
-                    "\n\u001b[30;mАтакует боец " + warrior2.getNameOnly() + "\n\u001b[30;mБоец " +
-                    warrior1.getNameOnly() + "\u001b[30;m  принимает удар!";
-            prepareToShowBattleInfo(round2);
+            prepareToShowBattleInfo(showRound2Ad());
             warrior1.takeDamage(warrior2.attack());
             prepareToShowBattleInfo(warrior1.getHealthStatus());
             squad1.needHimDeleteFromSquad(warrior1);
@@ -70,34 +58,44 @@ class Battle {
                 continue;
             }
         }
-        // вывести вермя сражения
+        // выводим текущую дату-время -1500 лет
+        prepareToShowBattleInfo("\n" + dateHelper.getFormattedStartDate() + "\n");
+        // вывести время сражения
         prepareToShowBattleInfo(dateHelper.getFormattedDiff());
-
     }
 
-    boolean showResults() {
+    private boolean showResults() {
         if (squad1.hasAliveWarriors() & !squad2.hasAliveWarriors()) {
-            String squad2down = "\u001b[31;m Отряд " + squad2.toString() +
-                    " полностью разбит!!!\n\u001b[36;m Победу одержал отряд " + squad1.toString() + " ! УРА!!!\n";
+            String squad2down = "Отряд " + squad2.toString() +
+                    " полностью разбит!!!\nПобеду одержал отряд " + squad1.toString() + " ! УРА!!!\n";
             prepareToShowBattleInfo(squad2down);
             return isBattleEnd = true;
-
         }
         // если есть живые во втором и нет живых во первом
         if (!squad1.hasAliveWarriors() & squad2.hasAliveWarriors()) {
-            String squad1down = "\u001b[31;m Отряд " + squad1.toString() +
-                    " полностью разбит!!!\n\u001b[36;m Победу одержал отряд " + squad2.toString() + " ! УРА!!!\n";
+            String squad1down = "Отряд " + squad1.toString() +
+                    " полностью разбит!!!\nПобеду одержал отряд " + squad2.toString() + " ! УРА!!!\n";
             prepareToShowBattleInfo(squad1down);
             return isBattleEnd = true;
         }
         return false;
     }
 
-    void prepareToShowBattleInfo(String newInfo) {
+    private void prepareToShowBattleInfo(String newInfo) {
         battleInfo.append(newInfo);
     }
 
     String showBattleInfo() {
         return battleInfo.toString();
+    }
+
+    private String showRound1Ad() {
+        return "\n       На бой вызываются: \n" + warrior1.toString() + "и " + warrior2.toString() +
+                "\nАтакует боец " + warrior1.getNameOnly() + "\nБоец " + warrior2.getNameOnly() + "  принимает удар!\n";
+    }
+
+    private String showRound2Ad() {
+        return "\n       На бой вызываются: \n" + warrior1.toString() + "и " + warrior2.toString() +
+                "\nАтакует боец " + warrior2.getNameOnly() + "\nБоец " + warrior1.getNameOnly() + "  принимает удар!";
     }
 }

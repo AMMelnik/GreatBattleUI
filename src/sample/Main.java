@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    ComboBox warriorClassComboBox;
     Battle battle = new Battle();
 
     public static void main(String[] args) {
@@ -23,8 +24,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        int warriorType = 0;
+
         stage.setTitle("Great Battle v.2.0");
+
+        ScrollPane scroll = new ScrollPane();
+        scroll.setPrefSize(350, 400);
+        scroll.setPadding(new Insets(25, 25, 25, 25));
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
@@ -54,10 +59,7 @@ public class Main extends Application {
         HBox hBoxSquadButton = new HBox(10);
         hBoxSquadButton.setAlignment(Pos.BOTTOM_LEFT);
         hBoxSquadButton.getChildren().add(setSquadNamesButton);
-        grid.add(hBoxSquadButton, 0, 4);
-
-        final Text actionTargetSquadButton = new Text();
-        grid.add(actionTargetSquadButton, 0, 6, 2, 1);
+        grid.add(hBoxSquadButton, 0, 5, 2, 1);
 
         Text setWarriorTitle = new Text("  Новый боец");
         setWarriorTitle.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 16));
@@ -74,27 +76,15 @@ public class Main extends Application {
         warriorClassLabel.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 14));
         grid.add(warriorClassLabel, 3, 2);
 
-        ComboBox warriorClassComboBox = new ComboBox();
+        warriorClassComboBox = new ComboBox();
         warriorClassComboBox.getItems().addAll("Разведчик", "Борец", "Подрывник");
         grid.add(warriorClassComboBox, 4, 2);
-        if (warriorClassComboBox.getSelectionModel().getSelectedIndex() == 0) {
-            warriorType = 1;
-        }
-        if (warriorClassComboBox.getSelectionModel().getSelectedIndex() == 1) {
-            warriorType = 2;
-        }
-        if (warriorClassComboBox.getSelectionModel().getSelectedIndex() == 2) {
-            warriorType = 3;
-        }
 
         Button setNewWarriorButton = new Button("Сохранить бойца");
         HBox hBoxWarriorButton = new HBox(10);
         hBoxWarriorButton.setAlignment(Pos.BOTTOM_LEFT);
         hBoxWarriorButton.getChildren().add(setNewWarriorButton);
-        grid.add(hBoxWarriorButton, 3, 4);
-
-        final Text actionTargetWarriorButton = new Text();
-        grid.add(actionTargetWarriorButton, 3, 6);
+        grid.add(hBoxWarriorButton, 3, 5, 2, 1);
 
         ToggleGroup radioSquadsGroup = new ToggleGroup();
 
@@ -111,48 +101,57 @@ public class Main extends Application {
         Button startBattleButton = new Button("Начать сражение!");
         HBox hBoxStartButton = new HBox(10);
         hBoxStartButton.setAlignment(Pos.BOTTOM_LEFT);
-        hBoxStartButton.getChildren().
+        hBoxStartButton.getChildren().add(startBattleButton);
+        grid.add(hBoxStartButton, 5, 5, 2, 1);
 
-                add(startBattleButton);
-        grid.add(hBoxStartButton, 0, 7);
+        Text someText = new Text();
+        someText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 12));
+        someText.setFill(Color.BROWN);
+        grid.add(someText, 0, 4, 5, 1);
 
         Text showBattleText = new Text();
         showBattleText.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 14));
         showBattleText.setFill(Color.BROWN);
-        grid.add(showBattleText, 0, 8, 6, 10);
+        scroll.setContent(showBattleText);
 
-        Scene scene = new Scene(grid, 750, 500);
-        stage.setScene(scene);
+        Scene sceneBattle = new Scene(scroll, 600, 500);
+
+        Scene sceneSettings = new Scene(grid, 700, 200);
+        stage.setScene(sceneSettings);
         stage.show();
 
         setSquadNamesButton.setOnAction(event ->
-        {
-            battle.createSquads(squad1TextField.getText(), squad2TextField.getText());
-            actionTargetSquadButton.setFill(Color.FIREBRICK);
-            actionTargetSquadButton.setText("Названия отрядов установлены");
-            showBattleText.setText(battle.showSquadsName());
-        });
+                battle.createSquads(squad1TextField.getText(), squad2TextField.getText()));
 
-        int finalWarriorType = warriorType;
-        setNewWarriorButton.setOnAction(event ->
-        {
+        setNewWarriorButton.setOnAction(event -> {
+            someText.setText(" ");
             if (setWarriorToSquad1RadioButton.isSelected()) {
-                battle.addWarriorToSquad1(warriorNameTextField.getText(), finalWarriorType);
+                battle.addWarriorToSquad1(warriorNameTextField.getText(), getWarClassName());
             }
             if (setWarriorToSquad2RadioButton.isSelected()) {
-                battle.addWarriorToSquad2(warriorNameTextField.getText(), finalWarriorType);
+                battle.addWarriorToSquad2(warriorNameTextField.getText(), getWarClassName());
             }
-            actionTargetWarriorButton.setFill(Color.FIREBRICK);
-            actionTargetWarriorButton.setText("Боец сохранен");
+            warriorNameTextField.setText("");
+            clearComboboxValue();
         });
 
-        startBattleButton.setOnAction(e ->
-
-        {
-            actionTargetSquadButton.setText("");
-            actionTargetWarriorButton.setText("");
-            //  battle.startBattle();
-            //     showBattleText.setText(battle.showBattleInfo());
+        startBattleButton.setOnAction(e -> {
+            try {
+                battle.startBattle();
+                stage.setScene((sceneBattle));
+                stage.show();
+                showBattleText.setText(battle.showBattleInfo());
+            } catch (IndexOutOfBoundsException iOoBe) {
+                someText.setText("Сначала нужно задать имена отрядам и добавить в них бойцов!");
+            }
         });
+    }
+
+    private int getWarClassName() {
+        return warriorClassComboBox.getSelectionModel().getSelectedIndex();
+    }
+
+    private void clearComboboxValue() {
+        warriorClassComboBox.getSelectionModel().clearSelection();
     }
 }

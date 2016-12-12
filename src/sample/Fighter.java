@@ -1,11 +1,10 @@
 package sample;
 
-import javafx.scene.control.TextField;
 
 /**
  * Created by pc on 11.12.2016.
  */
-class Fighter implements Warrior{
+class Fighter implements Warrior {
 
 
     private int damage = 50;
@@ -41,8 +40,8 @@ class Fighter implements Warrior{
     @Override
     public String getHealthStatus() {
         if (health > 0) {
-            return "\u001b[30;mЕго здоровье равно " + health + "\n";
-        } else return "\u001b[31;mБоец пал смертью храбрых!\n";
+            return "Его здоровье равно " + health + "\n";
+        } else return "Боец пал смертью храбрых!\n";
     }
 
     @Override
@@ -52,8 +51,7 @@ class Fighter implements Warrior{
 
     @Override
     public String toString() {
-        return "\u001b[34;m" + name + "\u001b[30;m. Класс" + "\u001b[34;m Борец" +
-                "\u001b[30;m , Отряд " + "\u001b[30;m" + squadName + "\n";
+        return name + ". Класс Борец, Отряд " + squadName + "\n";
     }
 
     @Override

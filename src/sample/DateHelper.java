@@ -19,7 +19,7 @@ class DateHelper {
         // минус 1500 лет
         battleBegin.add(Calendar.YEAR, -1500);
         battleSkip.add(Calendar.YEAR, -1500);
-        return "TIME of BEGIN: " + simpleDateFormat.format(battleBegin.getTime());
+        return "НАЧАЛО ВЕЛИКОГО СРАЖЕНИЯ: " + simpleDateFormat.format(battleBegin.getTime());
     }
 
     // пропустить 20 минут раунда
@@ -33,7 +33,7 @@ class DateHelper {
         long skip = battleSkip.getTimeInMillis();
         Calendar battleEnd = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         battleEnd.setTimeInMillis(skip - begin);
-        return "TIME of BATTLE: " + (battleEnd.get(Calendar.DAY_OF_YEAR) - 1) + " дней "
+        return "БИТВА ДЛИЛАСЬ: " + (battleEnd.get(Calendar.DAY_OF_YEAR) - 1) + " дней "
                 + battleEnd.get(Calendar.HOUR_OF_DAY) + " часов, "
                 + battleEnd.get(Calendar.MINUTE) + " минут\n";
     }
