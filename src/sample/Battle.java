@@ -96,6 +96,6 @@ class Battle {
 
     private String showRound2Ad() {
         return "\n       На бой вызываются: \n" + warrior1.toString() + "и " + warrior2.toString() +
-                "\nАтакует боец " + warrior2.getNameOnly() + "\nБоец " + warrior1.getNameOnly() + "  принимает удар!";
+                "\nАтакует боец " + warrior2.getNameOnly() + "\nБоец " + warrior1.getNameOnly() + "  принимает удар!\n";
     }
 }
