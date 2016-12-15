@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GreatBattleUI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GreatBattleUI_jar</output-path>
+    <root id="archive" name="GreatBattleUI.jar">
+      <element id="module-output" name="GreatBattleUI" />
+    </root>
+  </artifact>
+</component>

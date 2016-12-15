@@ -11,13 +11,13 @@ interface Warrior {
 
     void takeDamage(int damage);
 
+    int getHealth();
+
     boolean isAlive();
 
     void setSquadName(String name);
 
-    String getHealthStatus();
+    String getSquadName();
 
     String getNameOnly();
-
-    Warrior clone() throws CloneNotSupportedException;
 }

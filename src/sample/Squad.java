@@ -8,7 +8,6 @@ import java.util.ArrayList;
  */
 class Squad {
 
-
     private String squadName;
     private ArrayList<Warrior> squad = new ArrayList<>();
 
@@ -20,13 +19,13 @@ class Squad {
     void addToSquad(String name, int type) {
         switch (type) {
             case 0:
-                squad.add(new Scout(name));
+                squad.add(new Scout(name, 80, 60));
                 break;
             case 1:
-                squad.add(new Fighter(name));
+                squad.add(new Fighter(name, 50, 150));
                 break;
             case 2:
-                squad.add(new Bomber(name));
+                squad.add(new Bomber(name, 100, 50));
                 break;
         }
     }
@@ -46,8 +45,13 @@ class Squad {
         return !squad.isEmpty();
     }
 
-    void needHimDeleteFromSquad(Warrior warrior) {
-        if (!warrior.isAlive()) squad.remove(warrior);
+    String needHimDeleteFromSquad(Warrior warrior) {
+        if (!warrior.isAlive()) {
+            squad.remove(warrior);
+            return "Боец пал смертью храбрых!\n";
+        } else {
+            return "Его здоровье равно " + warrior.getHealth() + "\n";
+        }
     }
 
     @Override
