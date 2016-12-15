@@ -5,6 +5,7 @@ package sample;
  * Created by pc on 11.12.2016.
  */
 class Battle {
+
     private Squad squad1 = new Squad();
     private Squad squad2 = new Squad();
     private StringBuilder battleInfo = new StringBuilder();
@@ -69,7 +70,6 @@ class Battle {
         }
         return false;
     }
-
 
     private void prepareToShowBattleInfo(String newInfo) {
         battleInfo.append(newInfo);
