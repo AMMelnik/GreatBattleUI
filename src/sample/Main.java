@@ -23,7 +23,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception { //очень большой метод. нужно разбить на несколько
 
         stage.setTitle("Great Battle v.2.0");
 
@@ -45,7 +45,7 @@ public class Main extends Application {
         squad1Name.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 14));
         grid.add(squad1Name, 0, 1);
 
-        TextField squad1TextField = new TextField();
+        TextField squad1TextField = new TextField(); //всем полям нужно дать значения по умолчанию
         grid.add(squad1TextField, 1, 1);
 
         Label squad2Name = new Label("Отряд 2:");
@@ -77,7 +77,7 @@ public class Main extends Application {
         grid.add(warriorClassLabel, 3, 2);
 
         warriorClassComboBox = new ComboBox();
-        warriorClassComboBox.getItems().addAll("Разведчик", "Борец", "Подрывник");
+        warriorClassComboBox.getItems().addAll("Разведчик", "Борец", "Подрывник"); //задать значение по умолчанию
         grid.add(warriorClassComboBox, 4, 2);
 
         Button setNewWarriorButton = new Button("Сохранить бойца");
@@ -88,7 +88,7 @@ public class Main extends Application {
 
         ToggleGroup radioSquadsGroup = new ToggleGroup();
 
-        RadioButton setWarriorToSquad1RadioButton = new RadioButton("Отряд 1");
+        RadioButton setWarriorToSquad1RadioButton = new RadioButton("Отряд 1"); //одна из кнопок должна быть активна по умолчанию
         setWarriorToSquad1RadioButton.setFont(Font.font("Tahoma", FontWeight.SEMI_BOLD, 14));
         grid.add(setWarriorToSquad1RadioButton, 5, 1);
         setWarriorToSquad1RadioButton.setToggleGroup(radioSquadsGroup);
