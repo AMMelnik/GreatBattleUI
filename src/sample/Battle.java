@@ -54,7 +54,7 @@ class Battle {
             prepareToShowBattleInfo(warrior1.getHealthStatus());
             squad1.needHimDeleteFromSquad(warrior1);
             dateHelper.skipTime();
-            if (showResults()) {
+            if (showResults()) { //цикл зависит от поля isBattleEnd, данная проверка ничего не дает
                 continue;
             }
         }
@@ -72,7 +72,7 @@ class Battle {
             return isBattleEnd = true;
         }
         // если есть живые во втором и нет живых во первом
-        if (!squad1.hasAliveWarriors() & squad2.hasAliveWarriors()) {
+        if (!squad1.hasAliveWarriors() & squad2.hasAliveWarriors()) { //одинаковые строки, отличающиеся только отрядом. следует вынести в отдельный метод, принимающий ссылку на отряд
             String squad1down = "Отряд " + squad1.toString() +
                     " полностью разбит!!!\nПобеду одержал отряд " + squad2.toString() + " ! УРА!!!\n";
             prepareToShowBattleInfo(squad1down);
@@ -89,7 +89,7 @@ class Battle {
         return battleInfo.toString();
     }
 
-    private String showRound1Ad() {
+    private String showRound1Ad() { //2 по-сути одинаковый метода. следует заменить одним, принимающим ссылки на бойцов
         return "\n       На бой вызываются: \n" + warrior1.toString() + "и " + warrior2.toString() +
                 "\nАтакует боец " + warrior1.getNameOnly() + "\nБоец " + warrior2.getNameOnly() + "  принимает удар!\n";
     }

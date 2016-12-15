@@ -7,7 +7,7 @@ package sample;
 class Bomber implements Warrior {
 
 
-    private int damage = 100;
+    private int damage = 100; //хорошо бы вынести общее поведение в абстрактный класс
     private int health = 50;
     private String name;
     private String squadName;
@@ -37,7 +37,7 @@ class Bomber implements Warrior {
     }
 
     @Override
-    public String getHealthStatus() {
+    public String getHealthStatus() { //почти то же самое, что isAlive
         if (health > 0) {
             return "Его здоровье равно " + health + "\n";
         } else return "Боец пал смертью храбрых!\n";
